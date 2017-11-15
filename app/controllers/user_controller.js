@@ -17,3 +17,17 @@ exports.getUser = async(ctx, next) => {
 exports.registerUser = async(ctx, next) => {
   console.log('registerUser', ctx.request.body);
 }
+
+exports.login = async(ctx, next) => {
+  ctx.body = {
+    token: 'admin'
+  };
+}
+
+exports.getInfo = async(ctx, next) => {
+  ctx.body = {
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    name: 'admin',
+    role: ['admin']
+  };
+}

@@ -40,14 +40,15 @@ module.exports.add = async(reqObj) => {
   let db = await Alert.create({
     ip: reqObj.ip,
     time: new Date(reqObj.time * 1000),
-    app_id: reqObj.app_sys_id,
+    app_id: reqObj.app_id,
     module_id: reqObj.module_id,
     metric: reqObj.metric,
     desc: reqObj.desc,
     CPU: reqObj.CPU,
     MEMORY: reqObj.MEMORY,
     DISK: reqObj.DISK,
-    strategy_id: reqObj.strategy_id
+    strategy_id: reqObj.strategy_id,
+    fixed: 0
   })
   return db;
 };
@@ -59,7 +60,7 @@ module.exports.cancel = async(reqObj) => {
     },
     {
       where: {
-        app_id: reqObj.app_sys_id,
+        app_id: reqObj.app_id,
         module_id: reqObj.module_id,
         metric: reqObj.metric
       }
@@ -82,7 +83,8 @@ module.exports.list = async(reqObj) => {
       {
         model: Module,
         attributes: ['name'],
-        include: [{model: App, attributes: ['name']}]
+        include: [{model: App, attributes: ['name'], required: true}],
+        required: true
       }
     ]
   });

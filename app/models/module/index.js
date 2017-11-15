@@ -3,9 +3,9 @@ const Sequelize = require('sequelize');
 
 const Module = DB.define('module', {
   id: {
-    type: Sequelize.UUID,
+    type: Sequelize.INTEGER,
     primaryKey: true,
-    defaultValue: Sequelize.UUIDV4
+    autoIncrement: true
   },
   name: Sequelize.STRING,
   app_id: Sequelize.UUID

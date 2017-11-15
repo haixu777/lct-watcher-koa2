@@ -2,15 +2,29 @@
 // const ApiErrorNames = require('../error/ApiErrorNames');
 import {isObjEmpty} from '../../utils';
 const Alert = require('../models/alert');
+const Strategy = require('../models/strategy');
 import socket from '../../bin/www'
 
 //保存报警数据并且通过socket通知前端
 exports.notice = async(ctx, next) => {
   try {
     if (!isObjEmpty(socket)) {
-      socket.socket.emit('notice', {aa: 11});
+      socket.socket.emit('notice', ctx.request.body);
     }
     let res = await Alert.add(ctx.request.body);
+    mailer.mailer.sendMail({
+      from: 'wanghaixu@iie.ac.cn',
+      to: 'haixu_w@126.com',
+      subject: 'Hi, there',
+      text: 'Mail from Node!'
+    }, (err, msg) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(msg)
+      }
+    });
+    let strategy_errTag = await Strategy.errTag(ctx.request.body);
     ctx.msg = '预警推送成功';
     ctx.body = {};
   } catch(err) {
@@ -22,9 +36,10 @@ exports.notice = async(ctx, next) => {
 exports.noticeCancel = async(ctx, next) => {
   try {
     if (!isObjEmpty(socket)) {
-      socket.socket.emit('noticeCancel');
+      socket.socket.emit('noticeCancel', ctx.request.body);
     }
     let res = await Alert.cancel(ctx.request.body);
+    let strategy_mormalTag = await Strategy.normalTag(ctx.request.body);
     ctx.msg = '预警取消成功';
   } catch(err) {
     ctx.msg = '预警取消失败';

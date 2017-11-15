@@ -22,7 +22,8 @@ const Strategy = DB.define('strategy', {
   del_stat: Sequelize.INTEGER,
   update_stat: Sequelize.INTEGER,
   add_stat: Sequelize.INTEGER,
-  status: Sequelize.INTEGER
+  status: Sequelize.INTEGER,
+  email: Sequelize.STRING
 }, {
   freezeTableName: true,
   underscored: true
@@ -73,7 +74,7 @@ module.exports.doneAdd = async(reqObj) => {
     },
     {
       where: {
-        app_id: reqObj.app_sys_id,
+        app_id: reqObj.app_id,
         module_id: reqObj.module_id,
         metric: reqObj.metric,
         add_stat: 1
@@ -91,7 +92,7 @@ module.exports.doneModify = async(reqObj) => {
     },
     {
       where: {
-        app_id: reqObj.app_sys_id,
+        app_id: reqObj.app_id,
         module_id: reqObj.module_id,
         metric: reqObj.metric,
         update_stat: 1
@@ -106,7 +107,7 @@ module.exports.doneDel = async(reqObj) => {
   let data = await Strategy.destroy({
     where: {
       del_stat: 1,
-      app_id: reqObj.app_sys_id,
+      app_id: reqObj.app_id,
       module_id: reqObj.module_id,
       metric: reqObj.metric
     }
@@ -123,7 +124,7 @@ module.exports.getStatus = async(reqObj) => {
         model: Module,
         as: 'module',
         attributes: ['name'],
-        include: [{model: App, as: 'app', attributes: ['name']}]
+        include: [{model: App, as: 'app', attributes: ['name', 'CODE']}]
       }
     ],
     where: {
@@ -147,7 +148,8 @@ module.exports.list = async(reqObj) => {
         model: Module,
         as: 'module',
         attributes: ['name'],
-        include: [{model: App, attributes: ['name'], as: 'app'}]
+        required: true,
+        include: [{model: App, attributes: ['name'], as: 'app', required: true}]
       }
     ]
   });
@@ -197,6 +199,38 @@ module.exports.del = async(reqObj) => {
       }
     }
   )
+  return data;
+}
+
+module.exports.errTag = async(reqObj) => {
+  let data = await Strategy.update(
+    {
+      status: 0
+    },
+    {
+      where: {
+        app_id: reqObj.app_id,
+        module_id: reqObj.module_id,
+        metric: reqObj.metric
+      }
+    }
+  );
+  return data;
+}
+
+module.exports.normalTag = async(reqObj) => {
+  let data = await Strategy.update(
+    {
+      status: 1
+    },
+    {
+      where: {
+        app_id: reqObj.app_id,
+        module_id: reqObj.module_id,
+        metric: reqObj.metric
+      }
+    }
+  );
   return data;
 }
 
