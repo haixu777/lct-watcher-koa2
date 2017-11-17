@@ -9,6 +9,7 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser')();
 const logger = require('koa-logger');
 const cors = require('koa2-cors');
+const historyFallback = require('koa2-history-api-fallback');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -20,6 +21,7 @@ const logUtil = require('./utils/log_util');
 const response_formatter = require('./middlewares/response_formatter');
 
 // middlewares
+app.use(historyFallback());
 app.use(cors());
 app.use(convert(bodyparser));
 app.use(convert(json()));
