@@ -21,7 +21,6 @@ const logUtil = require('./utils/log_util');
 const response_formatter = require('./middlewares/response_formatter');
 
 // middlewares
-app.use(historyFallback());
 app.use(cors());
 app.use(convert(bodyparser));
 app.use(convert(json()));
@@ -68,6 +67,9 @@ router.use('/api', api.routes(), api.allowedMethods());
 router.use('/external', external.routes(), external.allowedMethods());
 
 app.use(router.routes(), router.allowedMethods());
+
+app.use(historyFallback());
+
 // response
 app.on('error', function(err, ctx){
   console.log(err);
