@@ -5,5 +5,4 @@ function isObjEmpty(obj) {
   return true;
 }
 
-
-export {isObjEmpty};
+module.exports = isObjEmpty;
