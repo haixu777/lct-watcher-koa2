@@ -3,6 +3,7 @@
 import {isObjEmpty} from '../../utils';
 const Alert = require('../models/alert');
 const Strategy = require('../models/strategy');
+const mailer = require('../../config/mailer')
 import socket from '../../bin/www'
 
 //保存报警数据并且通过socket通知前端
@@ -12,11 +13,12 @@ exports.notice = async(ctx, next) => {
       socket.socket.emit('notice', ctx.request.body);
     }
     let res = await Alert.add(ctx.request.body);
+    let strategy = await Strategy.get(ctx.request.body);
     mailer.mailer.sendMail({
       from: 'wanghaixu@iie.ac.cn',
-      to: 'haixu_w@126.com',
-      subject: 'Hi, there',
-      text: 'Mail from Node!'
+      to: strategy.email,
+      subject: '系统异常！metric: ' + ctx.request.body.metric,
+      text: strategy.note
     }, (err, msg) => {
       if (err) {
         console.log(err)

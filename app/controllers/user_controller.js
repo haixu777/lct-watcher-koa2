@@ -19,9 +19,13 @@ exports.registerUser = async(ctx, next) => {
 }
 
 exports.login = async(ctx, next) => {
-  ctx.body = {
-    token: 'admin'
-  };
+  if (ctx.request.body.username == 'admin' && ctx.request.body.password == 'wxb@iie') {
+    ctx.body = {
+      token: 'admin'
+    };
+  } else {
+    throw new Error('用户名或密码错误')
+  }
 }
 
 exports.getInfo = async(ctx, next) => {

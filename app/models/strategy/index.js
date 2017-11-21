@@ -236,5 +236,16 @@ module.exports.normalTag = async(reqObj) => {
   return data;
 }
 
+module.exports.get = async(reqObj) => {
+  let data = await Strategy.findOne({
+    where: {
+      app_id: reqObj.app_id,
+      module_id: reqObj.module_id,
+      metric: reqObj.metric
+    }
+  });
+  return data;
+}
+
 
 // ------------  对内接口 end -------------------
