@@ -1,6 +1,7 @@
 // const ApiError = require('../error/ApiError');
 // const ApiErrorNames = require('../error/ApiErrorNames');
-import {isObjEmpty} from '../../utils';
+// import {isObjEmpty} from '../../utils';
+const Utils = require('../../utils');
 const Alert = require('../models/alert');
 const Strategy = require('../models/strategy');
 const mailer = require('../../config/mailer')
@@ -9,7 +10,7 @@ import socket from '../../bin/www'
 //保存报警数据并且通过socket通知前端
 exports.notice = async(ctx, next) => {
   try {
-    if (!isObjEmpty(socket)) {
+    if (!Utils.isObjEmpty(socket)) {
       socket.socket.emit('notice', ctx.request.body);
     }
     let res = await Alert.add(ctx.request.body);
@@ -37,7 +38,7 @@ exports.notice = async(ctx, next) => {
 
 exports.noticeCancel = async(ctx, next) => {
   try {
-    if (!isObjEmpty(socket)) {
+    if (!Utils.isObjEmpty(socket)) {
       socket.socket.emit('noticeCancel', ctx.request.body);
     }
     let res = await Alert.cancel(ctx.request.body);

@@ -1,8 +1,10 @@
-function isObjEmpty(obj) {
+var Util = {};
+
+Util.isObjEmpty = function(obj) {
   for (var name in obj) {
     return false;
   }
   return true;
 }
 
-exports {isObjEmpty};
+module.exports = Util;
