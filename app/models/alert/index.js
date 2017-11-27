@@ -16,9 +16,10 @@ const Alert = DB.define('alert', {
   module_id: Sequelize.INTEGER,
   metric: Sequelize.STRING,
   desc: Sequelize.STRING,
-  CPU: Sequelize.STRING,
-  MEMORY: Sequelize.STRING,
-  DISK: Sequelize.STRING,
+  CPU: Sequelize.TEXT,
+  MEMORY: Sequelize.TEXT,
+  DISK: Sequelize.TEXT,
+  net: Sequelize.TEXT,
   strategy_id: Sequelize.INTEGER,
   fixed: {
     type: Sequelize.INTEGER,
@@ -79,6 +80,7 @@ module.exports.list = async(reqObj) => {
     where: {
       app_id: reqObj.app_id || {[Op.ne]: null}
     },
+    order: ['time', 'DESC'],
     include: [
       {
         model: Module,
