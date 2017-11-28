@@ -142,7 +142,8 @@ module.exports.list = async(reqObj) => {
     limit: Number(reqObj.perItem),
     offset: Number(reqObj.currentPage) * Number(reqObj.perItem),
     where: {
-      app_id: reqObj.app_id || {[Op.ne]: null}
+      app_id: reqObj.appId || {[Op.ne]: null},
+      module_id: reqObj.moduleId || {[Op.ne]: null}
     },
     include: [
       {
