@@ -194,7 +194,8 @@ module.exports.modify = async(reqObj) => {
 module.exports.del = async(reqObj) => {
   let data = await Strategy.update(
     {
-      del_stat: 1
+      del_stat: 1,
+      update_stat: 1
     },
     {
       where: {
@@ -248,5 +249,18 @@ module.exports.get = async(reqObj) => {
   return data;
 }
 
+module.exports.moduleDel = async(reqObj) => {
+  let data = await Strategy.update(
+    {
+      del_stat: 1
+    },
+    {
+      where: {
+        module_id: reqObj.id
+      }
+    }
+  );
+  return data;
+}
 
 // ------------  对内接口 end -------------------
