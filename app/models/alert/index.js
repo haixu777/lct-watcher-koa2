@@ -80,7 +80,7 @@ module.exports.list = async(reqObj) => {
     where: {
       app_id: reqObj.app_id || {[Op.ne]: null}
     },
-    order: ['time', 'DESC'],
+    order: ['time', 'ASC'],
     include: [
       {
         model: Module,
