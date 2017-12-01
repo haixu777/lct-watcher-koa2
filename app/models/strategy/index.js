@@ -201,8 +201,7 @@ module.exports.modify = async(reqObj) => {
 module.exports.del = async(reqObj) => {
   let data = await Strategy.update(
     {
-      del_stat: 1,
-      update_stat: 1
+      del_stat: 1
     },
     {
       where: {
