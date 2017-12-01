@@ -17,14 +17,14 @@ exports.getTree = async(ctx, next) => {
       return Object.assign(
         {},
         {
-          id: app.id,
-          name: app.name,
+          value: app.id,
+          label: app.name,
           children: app.modules ? app.modules.map((module) => {
             return Object.assign(
               {},
               {
-                id: module.id,
-                name: module.name
+                value: module.id,
+                label: module.name
               }
             )
           }) : []

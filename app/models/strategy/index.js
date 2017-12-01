@@ -180,7 +180,14 @@ module.exports.add = async(reqObj) => {
 module.exports.modify = async(reqObj) => {
   let data = await Strategy.update(
     {
-      update_stat: 1
+      update_stat: 1,
+      func: reqObj.func,
+      operator: reqObj.operator,
+      rightValue: reqObj.rightValue,
+      maxStep: reqObj.maxStep,
+      step: reqObj.step,
+      note: reqObj.note,
+      email: reqObj.email
     },
     {
       where: {

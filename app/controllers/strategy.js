@@ -110,7 +110,7 @@ exports.getList = async(ctx, next) => {
 exports.add = async(ctx, next) => {
   try {
     let res = await Strategy.add(ctx.request.body);
-    ctx.body = res;
+    // ctx.body = res;
     ctx.msg = '策略标记添加成功'
   } catch(err) {
     console.log(err);
