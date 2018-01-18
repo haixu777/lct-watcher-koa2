@@ -21,6 +21,7 @@ const Alert = DB.define('alert', {
   DISK: Sequelize.TEXT,
   net: Sequelize.TEXT,
   strategy_id: Sequelize.INTEGER,
+  snapshot: Sequelize.STRING,
   fixed: {
     type: Sequelize.INTEGER,
     defaultValue: 0
@@ -49,6 +50,7 @@ module.exports.add = async(reqObj) => {
     MEMORY: reqObj.MEMORY,
     DISK: reqObj.DISK,
     strategy_id: reqObj.strategy_id,
+    snapshot: reqObj.snapshot || null,
     fixed: 0
   })
   return db;
@@ -78,7 +80,12 @@ module.exports.list = async(reqObj) => {
     limit: Number(reqObj.perItem),
     offset: Number(reqObj.currentPage) * Number(reqObj.perItem),
     where: {
-      app_id: reqObj.app_id || {[Op.ne]: null}
+      app_id: reqObj.app_id || {[Op.ne]: null},
+      fixed: (reqObj.status == -1) ? {[Op.ne]: null} : reqObj.status,
+      time: reqObj.timeStart ? {
+        $gte: new Date(reqObj.timeStart),
+        $lte: new Date(reqObj.timeEnd)
+      } : {[Op.ne]: null}
     },
     order: [
       ['time', 'DESC']

@@ -24,7 +24,8 @@ const Strategy = DB.define('strategy', {
   add_stat: Sequelize.INTEGER,
   status: Sequelize.INTEGER,
   email: Sequelize.STRING,
-  step: Sequelize.INTEGER
+  step: Sequelize.INTEGER,
+  dataType: Sequelize.INTEGER
 }, {
   freezeTableName: true,
   underscored: true
@@ -172,7 +173,8 @@ module.exports.add = async(reqObj) => {
     contact: reqObj.contact,
     email: reqObj.email,
     step: reqObj.step,
-    add_stat: 1
+    add_stat: 1,
+    dataType: reqObj.dataType
   })
   return db;
 };
@@ -187,7 +189,8 @@ module.exports.modify = async(reqObj) => {
       maxStep: reqObj.maxStep,
       step: reqObj.step,
       note: reqObj.note,
-      email: reqObj.email
+      email: reqObj.email,
+      dataType: reqObj.dataType
     },
     {
       where: {
