@@ -19,7 +19,7 @@ exports.notice = async(ctx, next) => {
       from: 'wanghaixu@iie.ac.cn',
       to: strategy.email,
       subject: '系统异常！metric: ' + ctx.request.body.metric,
-      text: strategy.note
+      text: strategy.request.body.desc
     }, (err, msg) => {
       if (err) {
         console.log(err)
