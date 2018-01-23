@@ -43,6 +43,18 @@ exports.noticeCancel = async(ctx, next) => {
     }
     let res = await Alert.cancel(ctx.request.body);
     let strategy_mormalTag = await Strategy.normalTag(ctx.request.body);
+    mailer.mailer.sendMail({
+      from: 'wanghaixu@iie.ac.cn',
+      to: strategy_mormalTag.email,
+      subject: '系统恢复正常！metric: ' + ctx.request.body.metric,
+      text: strategy.request.body.desc || strategy_mormalTag.desc
+    }, (err, msg) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(msg)
+      }
+    });
     ctx.msg = '预警取消成功';
   } catch(err) {
     ctx.msg = '预警取消失败';
