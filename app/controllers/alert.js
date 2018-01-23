@@ -19,7 +19,7 @@ exports.notice = async(ctx, next) => {
       from: 'wanghaixu@iie.ac.cn',
       to: strategy.email,
       subject: '系统异常！metric: ' + ctx.request.body.metric,
-      text: strategy.request.body.desc
+      text: ctx.request.body.desc
     }, (err, msg) => {
       if (err) {
         console.log(err)
@@ -47,7 +47,7 @@ exports.noticeCancel = async(ctx, next) => {
       from: 'wanghaixu@iie.ac.cn',
       to: strategy_mormalTag.email,
       subject: '系统恢复正常！metric: ' + ctx.request.body.metric,
-      text: strategy.request.body.desc || strategy_mormalTag.desc
+      text: ctx.request.body.desc || strategy_mormalTag.desc
     }, (err, msg) => {
       if (err) {
         console.log(err)
