@@ -25,7 +25,8 @@ const Strategy = DB.define('strategy', {
   status: Sequelize.INTEGER,
   email: Sequelize.STRING,
   step: Sequelize.INTEGER,
-  dataType: Sequelize.INTEGER
+  dataType: Sequelize.INTEGER,
+  intranet: Sequelize.INTEGER
 }, {
   freezeTableName: true,
   underscored: true
@@ -144,7 +145,8 @@ module.exports.list = async(reqObj) => {
     offset: Number(reqObj.currentPage) * Number(reqObj.perItem),
     where: {
       app_id: reqObj.appId || {[Op.ne]: null},
-      module_id: reqObj.moduleId || {[Op.ne]: null}
+      module_id: reqObj.moduleId || {[Op.ne]: null},
+      intranet: (reqObj.range == -1) ? {[Op.ne]: null} : reqObj.range
     },
     include: [
       {
@@ -174,7 +176,8 @@ module.exports.add = async(reqObj) => {
     email: reqObj.email,
     step: reqObj.step,
     add_stat: 1,
-    dataType: reqObj.dataType
+    dataType: reqObj.dataType,
+    intranet: reqObj.range
   })
   return db;
 };
