@@ -42,12 +42,13 @@ exports.noticeCancel = async(ctx, next) => {
       socket.socket.emit('noticeCancel', ctx.request.body);
     }
     let res = await Alert.cancel(ctx.request.body);
+    let strategy = await Strategy.get(ctx.request.body);
     let strategy_mormalTag = await Strategy.normalTag(ctx.request.body);
     mailer.mailer.sendMail({
       from: 'wanghaixu@iie.ac.cn',
-      to: strategy_mormalTag.email,
+      to: strategy.email,
       subject: '系统恢复正常！metric: ' + ctx.request.body.metric,
-      text: ctx.request.body.desc || strategy_mormalTag.desc
+      text: ctx.request.body.metric || strategy.note
     }, (err, msg) => {
       if (err) {
         console.log(err)
