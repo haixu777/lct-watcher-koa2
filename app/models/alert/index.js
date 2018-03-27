@@ -12,6 +12,7 @@ const Alert = DB.define('alert', {
   },
   ip: Sequelize.STRING,
   time: Sequelize.DATE(6),
+  fix_time: Sequelize.DATE(6),
   app_id: Sequelize.INTEGER,
   module_id: Sequelize.INTEGER,
   metric: Sequelize.STRING,
@@ -42,6 +43,7 @@ module.exports.add = async(reqObj) => {
   let db = await Alert.create({
     ip: reqObj.ip,
     time: new Date(reqObj.time * 1000),
+    fix_time: null,
     app_id: reqObj.app_id,
     module_id: reqObj.module_id,
     metric: reqObj.metric,
@@ -59,13 +61,14 @@ module.exports.add = async(reqObj) => {
 module.exports.cancel = async(reqObj) => {
   let data = await Alert.update(
     {
-      fixed: 1
+      fixed: 1,
+      fix_time: new Date()
     },
     {
       where: {
         app_id: reqObj.app_id,
         module_id: reqObj.module_id,
-        metric: reqObj.metric
+        metric: reqObj.metric,
       }
     }
   )
