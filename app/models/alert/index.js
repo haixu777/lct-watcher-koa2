@@ -69,6 +69,7 @@ module.exports.cancel = async(reqObj) => {
         app_id: reqObj.app_id,
         module_id: reqObj.module_id,
         metric: reqObj.metric,
+        fixed: 0
       }
     }
   )
