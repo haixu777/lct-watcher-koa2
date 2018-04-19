@@ -68,6 +68,15 @@ exports.noticeCancel = async(ctx, next) => {
 exports.getList = async(ctx, next) => {
   try {
     let res = await Alert.list(ctx.query);
+    // 端口映射
+    /*
+    res.rows.forEach((item) => {
+      if (item.snapshot) {
+        let snapshotName = item.snapshot.split('/').pop()
+        item.snapshot = 'https://123.125.45.195:9999/snapshot/' + snapshotName
+      }
+    })
+    */
     ctx.body = res;
   } catch(err) {
     console.log(err);
